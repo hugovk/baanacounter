@@ -21,3 +21,7 @@ script:
  # Static analysis
  - flake8 --statistics --count
  - black --check --diff .
+
+ # Test run
+ - python baanacounter.py --help
+ - python baanacounter.py --test --yaml baanacounter_example.yaml
