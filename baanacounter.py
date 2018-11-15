@@ -44,7 +44,7 @@ def baanacounter():
         baanupdate = soup.find(id="baanaupdate")
         update = baanupdate.string
         print(update)
-    except:
+    except Exception:
         pass
 
     return count, None, None, None, None
@@ -60,29 +60,32 @@ def baanacounter2():
     soup = BeautifulSoup(page.read(), "lxml")
     #     print(soup)
 
-    # <table>
-    # <tr>
-    # <td><font size="2"> Hittills i år:</font></td><td><font size="2">47 854</font></td><td><font color="green" size="1">CO2-reduktion ca 13 207 kg <a href="http://publikationswebbutik.vv.se/shopping/ShowItem____6006.aspx" target="_blank" title="Uppskattat värde om varje resa skulle skett med bil och att varje färd är motsvarande  2 km lång med ett utsläpp på 138 g/km. Klicka för mer info på Trafikverkets hemsida">info</a></font></td>
-    # </tr>
-    # <td><font size="2"> Förra året:</font></td><td><font size="2">743 109</font></td><td><font color="green" size="1">CO2-reduktion ca 205 098 kg <a href="http://publikationswebbutik.vv.se/shopping/ShowItem____6006.aspx" target="_blank" title="Uppskattat värde om varje resa skulle skett med bil och att varje färd är motsvarande  2 km lång med ett utsläpp på 138 g/km. Klicka för mer info på Trafikverkets hemsida">info</a></font></td>
-    # </table>
+    """
+    Example:
+    <table>
+    <tr>
+    <td><font size="2"> Hittills i år:</font></td><td><font size="2">47 854</font></td><td><font color="green" size="1">CO2-reduktion ca 13 207 kg <a href="http://publikationswebbutik.vv.se/shopping/ShowItem____6006.aspx" target="_blank" title="Uppskattat värde om varje resa skulle skett med bil och att varje färd är motsvarande  2 km lång med ett utsläpp på 138 g/km. Klicka för mer info på Trafikverkets hemsida">info</a></font></td>
+    </tr>
+    <td><font size="2"> Förra året:</font></td><td><font size="2">743 109</font></td><td><font color="green" size="1">CO2-reduktion ca 205 098 kg <a href="http://publikationswebbutik.vv.se/shopping/ShowItem____6006.aspx" target="_blank" title="Uppskattat värde om varje resa skulle skett med bil och att varje färd är motsvarande  2 km lång med ett utsläpp på 138 g/km. Klicka för mer info på Trafikverkets hemsida">info</a></font></td>
+    </table>
 
-    # <table cellpadding="2" cellspacing="0" width="350">
-    # <tr>
-    # <td bgcolor="#808080"><font color="#FFFFFF" face="Arial" size="2">Plats</font></td>
-    # <td bgcolor="#808080"><font color="#FFFFFF" face="Arial" size="2">Cyklister <br/>idag</font></td>
-    # <td bgcolor="#808080"><font color="#FFFFFF" face="Arial" size="2">Samma tid <br/>1 vecka sedan</font></td>
-    # <td align="center" bgcolor="#808080">
-    # <font color="#FFFFFF" face="Arial" size="2">Aktuell<br/>trend</font></td>
-    # </tr>
-    # <tr>
-    # <td><font face="Arial" size="2">  Pohjoinen Rautaiekatu:
-    # </font>
-    # </td><td><font face="Arial" size="2">573 </font> </td><td>
-    # <font face="Arial" size="2">  213 </font> </td><td align="center">
-    # <font face="Arial" size="2"> <img alt="ökande trafik" src="http://www1.infracontrol.com/images/uparrow.gif"/></font><font face="Arial" size="1"> 169%</font></td>
-    # </tr>
-    # </table>
+    <table cellpadding="2" cellspacing="0" width="350">
+    <tr>
+    <td bgcolor="#808080"><font color="#FFFFFF" face="Arial" size="2">Plats</font></td>
+    <td bgcolor="#808080"><font color="#FFFFFF" face="Arial" size="2">Cyklister <br/>idag</font></td>
+    <td bgcolor="#808080"><font color="#FFFFFF" face="Arial" size="2">Samma tid <br/>1 vecka sedan</font></td>
+    <td align="center" bgcolor="#808080">
+    <font color="#FFFFFF" face="Arial" size="2">Aktuell<br/>trend</font></td>
+    </tr>
+    <tr>
+    <td><font face="Arial" size="2">  Pohjoinen Rautaiekatu:
+    </font>
+    </td><td><font face="Arial" size="2">573 </font> </td><td>
+    <font face="Arial" size="2">  213 </font> </td><td align="center">
+    <font face="Arial" size="2"> <img alt="ökande trafik" src="http://www1.infracontrol.com/images/uparrow.gif"/></font><font face="Arial" size="1"> 169%</font></td>
+    </tr>
+    </table>
+    """  # noqa: E501
     tables = soup.find_all("table")
 
     # Hittills i år:/So far this year:
@@ -243,7 +246,7 @@ if __name__ == "__main__":
     try:
         count, last_week, trend, year, last_year = baanacounter2()
         tweet = build_tweet(count, last_week, trend, year, last_year)
-    except:
+    except Exception:
         count, last_week, trend, year, last_year = baanacounter()
         tweet = build_tweet(count, last_week, trend, year, last_year)
 
