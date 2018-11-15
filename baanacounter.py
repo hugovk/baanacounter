@@ -3,31 +3,19 @@
 """
 Scraper to tweet the number of bikes using Helsinki's Baana
 """
-from __future__ import print_function, unicode_literals
-
 import argparse
 import sys
 import webbrowser
 
 import twitter  # pip install twitter
 import yaml  # pip install pyyaml
-from bs4 import BeautifulSoup  # pip install BeautifulSoup4
+from bs4 import BeautifulSoup  # pip install BeautifulSoup4 lxml
 
-try:
-    # Python 3
-    from urllib.request import urlopen
-except ImportError:
-    # Python 2
-    from urllib2 import urlopen
+from urllib.request import urlopen
 
 
 BAANA_LAT = 60.169173
 BAANA_LONG = 24.926085
-
-
-# cmd.exe cannot do Unicode so encode first
-def print_it(text):
-    print(text.encode("utf-8"))
 
 
 def baanacounter():
@@ -129,8 +117,12 @@ def load_yaml(filename):
     with open(filename) as f:
         data = yaml.safe_load(f)
 
-    keys = data.viewkeys() if sys.version_info.major == 2 else data.keys()
-    if not keys >= {"access_token", "access_token", "consumer_key", "consumer_secret"}:
+    if not data.keys() >= {
+        "access_token",
+        "access_token",
+        "consumer_key",
+        "consumer_secret",
+    }:
         sys.exit("Twitter credentials missing from YAML: " + filename)
     return data
 
@@ -204,7 +196,7 @@ def tweet_it(string, credentials):
         )
     )
 
-    print_it("TWEETING THIS:\n" + string)
+    print("TWEETING THIS:\n" + string)
 
     if args.test:
         print("(Test mode, not actually tweeting)")
@@ -263,7 +255,7 @@ if __name__ == "__main__":
 
     data = load_yaml(args.yaml)
 
-    print_it("Tweet this:\n" + tweet)
+    print("Tweet this:\n" + tweet)
     tweet_it(tweet, data)
 
     bingo = bingo_tweet(count, last_week)
