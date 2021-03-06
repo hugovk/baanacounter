@@ -250,6 +250,11 @@ if __name__ == "__main__":
         count, last_week, trend, year, last_year = baanacounter()
         tweet = build_tweet(count, last_week, trend, year, last_year)
 
+    # TEMP whilst the data is broken
+    # Don't tweet if today's and this year's count is stuck
+    if count == "402" and year == "36 073":
+        sys.exit("exit, data isn't updating at source")
+
     print(len(tweet))
     # TEMP whilst the data is broken
     # Don't tweet if count is zero but others are non-zero
